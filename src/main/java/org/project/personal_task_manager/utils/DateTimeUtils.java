@@ -1,4 +1,4 @@
-package org.project.personal_task_manager.utils.helper;
+package org.project.personal_task_manager.utils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

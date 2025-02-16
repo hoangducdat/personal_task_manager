@@ -4,7 +4,7 @@ import org.project.personal_task_manager.security.AuthEntryPointJwt;
 import org.project.personal_task_manager.security.AuthTokenService;
 import org.project.personal_task_manager.security.JwtAuthFilter;
 import org.project.personal_task_manager.utils.constants.SecurityConstants;
-import org.project.personal_task_manager.utils.helper.RedisService;
+import org.project.personal_task_manager.utils.redis.RedisService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

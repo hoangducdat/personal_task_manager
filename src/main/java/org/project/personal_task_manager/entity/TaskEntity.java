@@ -27,10 +27,10 @@ public class TaskEntity {
   private String description;
 
   @Enumerated(EnumType.STRING)
-  private PriorityLevel priority = PriorityLevel.NONE;
+  private PriorityLevel priority;
 
   @Enumerated(EnumType.STRING)
-  private TaskStatus status = TaskStatus.TODO;
+  private TaskStatus status;
 
   private LocalDateTime dueDate;
 

@@ -8,4 +8,8 @@ public interface AuthTokenService {
   String getUsernameFromToken(String token);
   boolean validateToken(String token);
   String extractToken(HttpServletRequest request);
+
+  long getAccessTokenExpiration();
+  long getRefreshTokenExpiration();
+
 }

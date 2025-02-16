@@ -26,9 +26,10 @@ public class UserEntity {
 
   private String address;
   private String phoneNumber;
-
+  private boolean verifyEmail;
   @Column(nullable = false, updatable = false)
   private LocalDateTime createdAt;
+
 
 }
 

@@ -1,4 +1,4 @@
-package org.project.personal_task_manager.controller.response;
+package org.project.personal_task_manager.controller.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -12,11 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LoginResponse {
-  private String accessToken;
-  private String refreshToken;
-  private long accessTokenExpiration;
-  private long refreshTokenExpiration;
-  private String tokenType;
-
+public class UpdateUserProfileRequest {
+  private String fullName;
+  private String address;
+  private String phoneNumber;
 }

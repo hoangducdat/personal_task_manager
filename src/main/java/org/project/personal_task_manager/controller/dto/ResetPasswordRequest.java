@@ -1,7 +1,8 @@
-package org.project.personal_task_manager.controller.response;
+package org.project.personal_task_manager.controller.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LoginResponse {
-  private String accessToken;
-  private String refreshToken;
-  private long accessTokenExpiration;
-  private long refreshTokenExpiration;
-  private String tokenType;
+public class ResetPasswordRequest {
+  @NotBlank
+  private String email;
+  @NotBlank
+  private String resetPasswordKey;
+  @NotBlank
+  private String newPassword;
+  @NotBlank
+  private String confirmPassword;
 
 }

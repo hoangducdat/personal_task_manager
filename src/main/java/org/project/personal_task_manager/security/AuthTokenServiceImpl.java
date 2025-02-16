@@ -20,10 +20,10 @@ public class AuthTokenServiceImpl implements AuthTokenService {
   private String refreshSecret;
 
   @Value("${jwt.access.token.time.to.live}")
-  private Long accessTokenExpirationMs;
+  private long accessTokenExpirationMs;
 
   @Value("${jwt.refresh.token.time.to.live}")
-  private Long refreshTokenExpirationMs;
+  private long refreshTokenExpirationMs;
 
 
   @Override
@@ -44,11 +44,12 @@ public class AuthTokenServiceImpl implements AuthTokenService {
         .signWith(SignatureAlgorithm.HS256, refreshSecret)
         .compact();
   }
-
-  public Long getAccessTokenExpiration() {
+  @Override
+  public long getAccessTokenExpiration() {
     return accessTokenExpirationMs;
   }
-  public Long getRefreshTokenExpiration() {
+  @Override
+  public long getRefreshTokenExpiration() {
     return refreshTokenExpirationMs;
   }
   @Override

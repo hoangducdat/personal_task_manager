@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.project.personal_task_manager.utils.constants.CommonConstants;
-import org.project.personal_task_manager.utils.helper.DateTimeUtils;
+import org.project.personal_task_manager.utils.DateTimeUtils;
 
 
 @NoArgsConstructor
