@@ -18,6 +18,7 @@
       </column>
       <column name="address" type="VARCHAR(255)" />
       <column name="phone_number" type="VARCHAR(15)" />
+      <column name="verify_email" type="boolean" defaultValueBoolean="false"/>
       <column name="created_at" type="TIMESTAMP"/>
     </createTable>
   </changeSet>
@@ -57,7 +58,7 @@
         <constraints nullable="false" />
       </column>
       <column name="description" type="TEXT" />
-      <column name="priority" type="VARCHAR(10)" defaultValue="MEDIUM" />
+      <column name="priority" type="VARCHAR(10)" defaultValue="NONE" />
       <column name="status" type="VARCHAR(15)" defaultValue="TODO" />
       <column name="due_date" type="TIMESTAMP" />
       <column name="created_at" type="TIMESTAMP"/>
