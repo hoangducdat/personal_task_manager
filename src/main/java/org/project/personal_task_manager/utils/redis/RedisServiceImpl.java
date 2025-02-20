@@ -30,11 +30,6 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public void saveExpire(String key, long timeout, TimeUnit unit) {
-        redisTemplate.expire(key, timeout, unit);
-    }
-
-    @Override
     public Optional<Object> get(String key) {
         return Optional.ofNullable(redisTemplate.opsForValue().get(key));
     }

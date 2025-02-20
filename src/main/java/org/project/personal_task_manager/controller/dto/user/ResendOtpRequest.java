@@ -1,4 +1,4 @@
-package org.project.personal_task_manager.controller.dto;
+package org.project.personal_task_manager.controller.dto.user;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -13,14 +13,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ResetPasswordRequest {
+public class ResendOtpRequest {
   @NotBlank
   private String email;
   @NotBlank
-  private String resetPasswordKey;
-  @NotBlank
-  private String newPassword;
-  @NotBlank
-  private String confirmPassword;
+  private String otpType;
 
 }

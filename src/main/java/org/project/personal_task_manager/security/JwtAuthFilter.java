@@ -6,17 +6,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.project.personal_task_manager.service.impl.UserDetailsServiceImpl;
 import org.project.personal_task_manager.utils.redis.RedisService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
+
   private final AuthTokenService authTokenService;
-  private final UserDetailsService userDetailsService;
+  private final UserDetailsServiceImpl userDetailsService;
   private final RedisService redisService;
 
   @Override
@@ -25,20 +28,31 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     String token = authTokenService.extractToken(request);
+    log.info("Extracted token: {}", token);
+    if (token != null) {
+      try {
+        String userId = authTokenService.getUserIdFromToken(token);
 
-    if (token != null && authTokenService.validateToken(token)) {
-      String username = authTokenService.getUsernameFromToken(token);
+        if (!authTokenService.validateToken(token, userId)) {
+          log.error("Token không hợp lệ hoặc không khớp với Redis!");
+          response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired token");
+          return;
+        }
 
-      String storedToken = (String) redisService.get("TOKEN:ACCESS:" + username).orElse(null);
-      if (storedToken == null || !storedToken.equals(token)) {
-        filterChain.doFilter(request, response);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+
+        UsernamePasswordAuthenticationToken authentication =
+            new UsernamePasswordAuthenticationToken(userId, null,
+                null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        log.info("User {} đã được xác thực thành công!", userId);
+
+      } catch (Exception e) {
+        log.error("Lỗi xác thực token: {}", e.getMessage());
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token authentication failed");
         return;
       }
-
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      UsernamePasswordAuthenticationToken authentication =
-          new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-      SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     filterChain.doFilter(request, response);

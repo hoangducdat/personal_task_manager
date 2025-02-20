@@ -13,7 +13,7 @@
       <column name="email" type="VARCHAR(100)">
         <constraints unique="true" nullable="false" />
       </column>
-      <column name="fullname" type="VARCHAR(100)" >
+      <column name="full_name" type="VARCHAR(100)" >
         <constraints nullable="false" />
       </column>
       <column name="address" type="VARCHAR(255)" />

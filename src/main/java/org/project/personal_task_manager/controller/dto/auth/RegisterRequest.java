@@ -1,4 +1,4 @@
-package org.project.personal_task_manager.controller.dto;
+package org.project.personal_task_manager.controller.dto.auth;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

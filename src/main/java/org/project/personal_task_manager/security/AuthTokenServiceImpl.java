@@ -7,9 +7,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
+import org.project.personal_task_manager.exception.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AuthTokenServiceImpl implements AuthTokenService {
 
@@ -27,18 +30,18 @@ public class AuthTokenServiceImpl implements AuthTokenService {
 
 
   @Override
-  public String generateAccessToken(String username) {
+  public String generateAccessToken(String userId) {
     return Jwts.builder()
-        .setSubject(username)
+        .setSubject(userId)
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
         .signWith(SignatureAlgorithm.HS256, accessSecret)
         .compact();
   }
   @Override
-  public String generateRefreshToken(String username) {
+  public String generateRefreshToken(String userId) {
     return Jwts.builder()
-        .setSubject(username)
+        .setSubject(userId)
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpirationMs))
         .signWith(SignatureAlgorithm.HS256, refreshSecret)
@@ -53,7 +56,7 @@ public class AuthTokenServiceImpl implements AuthTokenService {
     return refreshTokenExpirationMs;
   }
   @Override
-  public String getUsernameFromToken(String token) {
+  public String getUserIdFromToken(String token) {
     return Jwts.parser()
         .setSigningKey(accessSecret)
         .parseClaimsJws(token)
@@ -61,23 +64,24 @@ public class AuthTokenServiceImpl implements AuthTokenService {
         .getSubject();
   }
   @Override
-  public boolean validateToken(String token) {
+  public boolean validateToken(String accessToken, String userId) {
     try {
-      Jwts.parser().setSigningKey(accessSecret).parseClaimsJws(token);
+      String subject = getUserIdFromToken(accessToken);
+      if (!subject.equals(userId)) {
+        throw new InvalidTokenException("Token does not match the provided userId: " + userId);
+      }
       return true;
-    } catch (ExpiredJwtException e) {
-      System.out.println("Token hết hạn!");
-    } catch (MalformedJwtException e) {
-      System.out.println("Token không hợp lệ!");
-    } catch (SignatureException e) {
-      System.out.println("Token có chữ ký sai!");
+    } catch (InvalidTokenException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new InvalidTokenException("Failed to validate token for userId: " + userId);
     }
-    return false;
   }
   @Override
   public String extractToken(HttpServletRequest request) {
     String header = request.getHeader("Authorization");
     if (header != null && header.startsWith("Bearer ")) {
+      log.info("header: {}", header);
       return header.substring(7);
     }
     return null;

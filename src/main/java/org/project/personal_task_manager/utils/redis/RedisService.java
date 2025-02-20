@@ -8,9 +8,6 @@ public interface RedisService {
 
     void save(String key, String hashKey, Object value);
 
-    void saveExpire(String key, long timeout, TimeUnit unit);
-
-
     Optional<Object> get(String key);
 
     Optional<Object> get(String key, String hashKey);

@@ -1,4 +1,4 @@
-package org.project.personal_task_manager.controller.dto;
+package org.project.personal_task_manager.controller.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -13,4 +13,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity,String> {
 
   @Query("SELECT a FROM AccountEntity a JOIN UserEntity u ON a.userId = u.id WHERE u.email = :email")
   Optional<AccountEntity> findAccountByEmail(@Param("email") String email);
+
+  Optional<AccountEntity> findByUserId(String userId);
 }
