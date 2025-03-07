@@ -19,7 +19,7 @@ Spring Boot: Xây dựng REST API.
 
 Spring Security + JWT: Xác thực và phân quyền người dùng.
 
-MySQL/PostgreSQL: Lưu trữ dữ liệu công việc.
+MySQL: Lưu trữ dữ liệu công việc.
 
 Redis: Lưu cache công việc gần đây để cải thiện hiệu suất.
 
